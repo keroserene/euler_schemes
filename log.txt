@@ -1,0 +1,76 @@
+-------------------------------------------------------------------------------
+                                  Scheme Log 
+-------------------------------------------------------------------------------
+
+This document contains random tidbits and notes I'll jot down about anything
+and everything while exploring scheme. 
+
+						~Serene
+
+
+Installation of Scheme/Getting started:
+
+Source URL: http://www.gnu.org/software/mit-scheme/
+
+I downloaded scheme 9.1, for unix x86-64.
+Ran into a couple problems which were solved with a simple apt-get:
+
+I had to apt-get install texinfo and m4.
+
+Other than that, everything went smoothly!
+
+All about REPL...
+
+Apparently the Read-Eval-Print Loop is where it's all happening. So we have a
+prompt, and then we type some expression in, terminate it with \n, and then
+scheme evaluates the expression, and then prints the result. So on and soforth.
+
+So, there's this thing called "Current REPL environment". When starting scheme,
+it's at "user-initial-environment".
+
+How to get the current REPL environment:
+> (nearest-repl/environment)
+
+How to get a ptr to the environment in which a procedure was closed:
+
+> (procedure-environment procedure)
+
+Prompt and level number!
+
+Apparently everytime an error ocurs, you get put into a new REPL environment
+just for that error.
+
+Ctrl-g to return to the top level REPL environment.
+
+
+Exit by typing:
+> (exit)
+
+moriturus te saluto!
+
+So here are the interrupt keys in scheme I should be aware of:
+
+Ctrl-g to stop current evaluation and return to top level REPL.
+	(Also done by Ctrl-c twice)
+
+Note: Ctrl-c followed by ? lists all these possibilities anyways.
+
+Ctrl-c, followed by:
+	Ctrl-x = abort and return to CURRENT REPL
+	Ctrl-u = abort and return to PREVIOUS REPL (up one level)
+	q = (exit)
+	z = (quit)
+	i = ignore (As if the initial ctrl-c was unwanted)
+
+Source for the "Simply Scheme" tests specific libs
+ftp://anarres.cs.berkeley.edu/pub/
+
+Also, function vs. procedure.
+
+
+Decided to turn this scheme thing into a git repo finally!i
+
+"In scheme, any value except #f counts as true in conditionals"
+
+Also, random vim update. :set ts=80 is helpful!
+Furthermore, SHIFT-v to select visual line. Then "g, q" to wrap to 80 chars.

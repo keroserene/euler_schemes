@@ -24,7 +24,7 @@
 	
 
 ; ------------ Problem 3 ------------
-; Largest prime factor of 6008514751
+; "Largest prime factor of 6008514751"
 (define p3const 600851475143)
 
 ; Divide out entire factor
@@ -50,7 +50,7 @@
 
 
 ; ------------ Problem 4 ------------
-; Largest palindromic product of two 3-digit numbers
+; "Largest palindromic product of two 3-digit numbers"
 
 (define (isPalindrome x)
 	(define (reversal x r)
@@ -67,6 +67,15 @@
 	(tryMult 999 999 (lambda(p) p)))
 
 
-
+; ------------ Problem 5 ------------
+; "Smallest number evenly divisible by each number between 1 and 20"
+; Must eliminate common factors.
+(define (p5)
+	(define (isDivis n d) (eq? 0 (remainder n d)))
+	(define (tryNum n d)
+		(if (< d 2) n
+		(if (isDivis n d) (tryNum n (- d 1))
+			(tryNum (* n (/ d (gcd n d))) (- d 1)))))
+	(tryNum 1 20))
 
 

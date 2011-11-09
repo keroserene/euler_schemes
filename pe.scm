@@ -79,3 +79,20 @@
 	(tryNum 1 20))
 
 
+; ------------ Problem 6 ------------
+; "Difference of sum of squares and square of sums of first 100 naturals"
+(define (p6)
+	(define (sqOsum n) (square (* n (+ n 1) 1/2)))
+	(define (nthOdd n) (- (* 2 n) 1))
+	; Sums of n consective odds = n^2, so sum of m consecutive squares
+	; must be m*1 + (m-1)*3 + (m-2)*5 + ... (1*(2n+1)
+	(define (sumOsq n)
+		(define (combine n m) (if (< 0 n)
+			(+ (* m (nthOdd n)) (combine (- n 1) (+ 1 m))) n))
+		(combine n 1))
+        (- (sqOsum 100) (sumOsq 100)))
+
+
+
+
+

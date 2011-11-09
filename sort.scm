@@ -2,8 +2,8 @@
 ; keroserene
 
 ; Simple selection sort algorithm with continuation
+; "Selects the minimum from the current sublist each time and places it in front"
 ; l - List to sort
-; f - Comparison function
 (define (selectionSort l)
 
 	; Helper function - selects an element from a list,
@@ -23,4 +23,8 @@
 		; Recurse on each sublist
 		(select l m (lambda (rest) (cons m (selectionSort rest))))))
 
-
+; Simple insertion sort algorithm
+; "Takes the first element each time and swaps it through until the minimum location"
+; l - List to sort
+(define (insertionSort l)
+	l)

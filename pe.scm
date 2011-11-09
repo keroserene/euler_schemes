@@ -49,5 +49,24 @@
 	(jump2and4 n 5 (lambda(ret) ret)))))))))
 
 
+; ------------ Problem 4 ------------
+; Largest palindromic product of two 3-digit numbers
+
+(define (isPalindrome x)
+	(define (reversal x r)
+		(if (eq? 0 x) r	
+			(reversal (quotient x 10) (+ (* 10 r) (remainder x 10)))))
+	(eq? x (reversal x 0)))
+	
+(define (p4)
+	(define (tryMult x y f)
+		(if (< x 100) (f 0)
+		(if (or (isPalindrome (* x y)) (< y 100))
+			(tryMult (- x 1) x (lambda(p) (f (max p (* x y)))))
+			(tryMult x (- y 1) f))))
+	(tryMult 999 999 (lambda(p) p)))
+
+
+
 
 

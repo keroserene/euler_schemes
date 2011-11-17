@@ -1,4 +1,4 @@
-; Project Euler problems
+; Project Euler problems, 1-9
 ; keroserene
 
 ; ------------ Problem 1 ------------
@@ -100,7 +100,7 @@
 ; n - Sieve up to the nth prime (except for 2)
 (define (soe n)
 	(define (elim cnt x f)
-		(if (f x) (elim cnt (+ 1 x) f)
+		(if (f x) (elim cnt (+ 2 x) f)
 		(if (eq? n (+ 1 cnt)) x
 			(elim (+ 1 cnt) (+ 2 x)
 			(lambda(v) (or (eq? 0 (remainder v x)) (f v)))))))
@@ -151,7 +151,39 @@
 (define (p9) (tt 1 1 998))
 
 
+; ------------ Problem 10 ------------
+;"sum of all the primes below two million."
+
+; sieve of erasthowhatever with sum
+(define (soes m)
+	(define (elim x s f)
+		(if (>= x m) s
+		(if (f x) (elim (+ 2 x) s f)
+			(elim (+ 2 x) (+ s x) (lambda(v) (or (eq? 0 (remainder v x)) (f v))))
+			)))
+	(if (< m 2) 0 (elim 3 2 (lambda(x) (eq? 0 (remainder x 2)))))) 
+(define p10const 2000000)
+(define (p10) (soes p10const))
 
 
+; Prime sieve using bit string (small mem, but slower)
+(define (soe2 n)
+	(let ((P (make-bit-string (- n 2) #t)))
+	(define (prime? k) (bit-string-ref P (- k 2)))
+        (define (nope! k) (bit-string-clear! P (- k 2)))
+	(let loop ((x 2))
+		(if (eq? x n)
+			()
+			()))
+	(define (run x)
+		(if (prime? x) (sieve x)
+			
+		(sieve (+ 1 x) )
+	(loop ((for k (in-range (from 2) (up-to n))))
 
-
+	(if (prime? k)
+		(loop ((for i (in-range (from (* 2 k)) (up-to n) (by k))))
+		(nope! i))))
+	(collect-list (for k (in-range (from 2) (up-to n)))
+	(if (prime? k)) k)
+))) )

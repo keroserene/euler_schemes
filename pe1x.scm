@@ -62,6 +62,7 @@
 	(define hundreds (* 7 100 9))
 	(define ands (* 3 99 9))
 	(define thousand 11)	;one thousand
+
 	(+ (* 10 (count100))  (* 100 (f10)) hundreds ands thousand))
 
 

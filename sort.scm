@@ -23,8 +23,7 @@
 		; Recurse on each sublist
 		(select l m (lambda (rest) (cons m (selectionSort rest))))))
 
-; Simple insertion sort algorithm
+; Simple insertion sort algorithm (Not done)
 ; "Takes the first element each time and swaps it through until the minimum location"
 ; l - List to sort
-(define (insertionSort l)
-	l)
+(define (insertionSort l) l)

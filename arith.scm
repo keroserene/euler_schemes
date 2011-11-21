@@ -15,3 +15,13 @@
 (define (digit x n)
   (if (< n 0) 0
   (modulo (quotient x (pow 10 n)) 10)))
+
+; Factorial
+(define (! n)
+  (define (rec i acc) 
+    (if (<= i 1) acc (rec (- i 1) (* acc i))))
+  (rec n 1))
+
+; Binomial coefficient
+(define (binom n k)
+  (if (< n k) 0 (/ (! n) (* (! k) (! (- n k))))))

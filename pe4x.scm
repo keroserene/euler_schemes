@@ -1,13 +1,26 @@
 ; Project Euler problems, 40-49
 ; keroserene
+ 
+(load "arith.scm")
+
+ ; ------------ Problem 42 ------------
+; "concatenating the naturals, d1 + d10 + d100 + ... + d1000000"
+(define (p40)
+ 	(define (d n) ; nth digit
+		(define (chop mag off)
+			(let* (
+				(lo (pow 10 (- mag 1)))
+				(hi (pow 10 mag))
+				(range (* mag (- hi lo))))
+			(if (< off range) 
+				(digit (+ lo (quotient off mag)) (- mag 1 (modulo off mag)))
+				(chop (+ mag 1) (- off range)))))
+		(if (< n 10) n (chop 2 (- n 10)))) 
+	(* (d 1) (d 10) (d 100) (d 1000) (d 10000) (d 100000) (d 1000000)))
 
 ; ------------ Problem 42 ------------
 ; "triangle words in words.txt"
 ; All caps locked.
- 	(define (word->int w)
-	       (apply + (map (lambda(c) (+ 1 (- (char->integer c) (char->integer #\A)))) 
-	       		(string->list w))))
- 
 (define (p42)
 	(define (word->int w)
 	       (apply + (map (lambda(c) (+ 1 (- (char->integer c) (char->integer #\A)))) 

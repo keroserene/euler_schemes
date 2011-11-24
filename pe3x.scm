@@ -4,7 +4,7 @@
 (load "data.scm")
 
 ; ------------ Problem 31 ------------
-; "ways to make a 2e (200p) "
+; "ways to make a 2e (200p) currency"
 
 ; Equivalent to all possible combinations of coins >= 2 with value <= 200
 (define (p31)

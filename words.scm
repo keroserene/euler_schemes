@@ -1,6 +1,21 @@
 ; Helper I/O functions
 ; keroserene
+
  
+(load "arith.scm")
+
+; [Any params out of specified ranges result in undefined behavior]
+
+; Converts a single digit, 0-9 inclusive, to a character representing that digit. 
+(define (int->char x) (integer->char (+ x (char-code #\0))))
+
+; Converts a character representing a digit 0-9 inclusive, to the actual integer
+(define (char->int x) (- (char-code x) (char-code #\0)))
+
+; Casting integer -> string ie. 123 becomes "123"
+(define (int->string n)
+   (apply string (map int->char (int->list n))))
+
 ; Lexical comparison between two words
 (define (before? a b)
   (define (poke al bl)
@@ -15,3 +30,5 @@
 (define (word->int w)
   (apply + (map (lambda(c) (+ 1 (- (char->integer c) (char->integer #\A)))) 
     (string->list w))))
+
+

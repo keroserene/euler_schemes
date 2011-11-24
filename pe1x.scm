@@ -40,19 +40,23 @@
   ; Diagonals - south east vs south west
   (define (dse i d) 
     (if (or (>= (modulo i DIM) (- DIM d)) 
-            (>= (quotient i DIM) (- DIM d)) -1
-	(+ i (* d (+ DIM 1))))))
-  (define (dse i d) 
+            (>= (quotient i DIM) (- DIM d))) -1
+	(+ i (* d (+ DIM 1)))))
+  (define (dsw i d) 
     (if (or (< (modulo i DIM) d)
             (>= (quotient i DIM) (- DIM d))) -1
 	(+ i (* d (- DIM 1)))))
 
   (define (g4 dir i) 
-    (if (eq? (dir i 3) -1) -1
+    (if (eq? (dir i 3) -1) -1)
+    (display (list-ref A i)) (display " ")
+    (display (list-ref A (dir i 1))) (display " ") 
+    (display (list-ref A (dir i 2))) (display " ") 
+    (display (list-ref A (dir i 3))) (display "\n") 
     (* (list-ref A i) 
        (list-ref A (dir i 1))
        (list-ref A (dir i 2))
-       (list-ref A (dir i 3)))))
+       (list-ref A (dir i 3))))
 
   (define (mR r)
     (apply max (map (lambda (i) (g4 right (+ (* DIM r) i))) (range (- DIM L)))))
@@ -61,12 +65,19 @@
     (apply max (map (lambda (i) (g4 down i)) (range (- DIM L)))))
 
   ; Diagonals indexed from 0 to 2*DIM - 2*L, where 0 is the lowest bottom-left, DIM-L is the central diagonal, and 2*DI - 2*L is the upper right
-  (define (mD d)
-    (apply max (map (lambda (i) (g4 diag i)) (range (- DIM )))))
+  (define (mD1 d)
+    (define base (+ (max 0 d) (* D (abs (min 0 d)))))
+    (display (max 0 d)) (display "\n")
+    (display base) (display "\n")
+    (map (lambda (i) (g4 dse (dse base i)))
+      (range (- 17 (abs d)))))
 
 ;   (g4 right 0))
-  (apply max (map (lambda (r) (mC r)) (range DIM)))
-  (apply max (map (lambda (r) (mR r)) (range DIM))))
+;  (apply max (map (lambda (r) (mC r)) (range DIM)))
+;  (apply max (map (lambda (r) (mR r)) (range DIM))) 
+;  (apply max (map (lambda (i) (g4 diag i)) (range (-16 16)))))
+  (mD1 (- 0 15)) 
+  )
 
 
  

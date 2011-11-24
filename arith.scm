@@ -16,6 +16,14 @@
   (if (< n 0) 0
   (modulo (quotient x (pow 10 n)) 10)))
 
+; Turns an integer into a list of its digits, left to right
+(define (int->list x)
+  (define (f x acc) 
+    (if (eq? 0 x) acc
+        (f (quotient x 10) (cons (digit x 0) acc))))
+  (cond ((eq? 0 x) `(0))
+        (else (f x `()))))
+
 ; Factorial
 (define (! n)
   (define (rec i acc) 

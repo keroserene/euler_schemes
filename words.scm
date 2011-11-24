@@ -16,6 +16,12 @@
 (define (int->string n)
    (apply string (map int->char (int->list n))))
 
+; Take any arguments and turn it into a string easily
+(define (word a . r)
+   (apply string-append (map (lambda(x) 
+     (cond ((integer? x) (int->string x))
+           (else x))) (cons a r))))
+
 ; Lexical comparison between two words
 (define (before? a b)
   (define (poke al bl)

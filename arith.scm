@@ -33,3 +33,18 @@
 ; Binomial coefficient
 (define (binom n k)
   (if (< n k) 0 (/ (! n) (* (! k) (! (- n k))))))
+
+
+; Arithmetic sum m + 2m + 3m + ... + km such that km < n
+(define (asum m n)
+  (let ((x (quotient n m)))
+  (* m (* (+ 1 x) x 1/2))))
+     
+
+; Determine is a number is a palindrome, by checking if reverse is equal
+(define (palindrome? x)
+  (define (reversal x r)
+    (if (eq? 0 x) r  
+      (reversal (quotient x 10) (+ (* 10 r) (remainder x 10)))))
+  (eq? x (reversal x 0)))
+ 

@@ -1,7 +1,7 @@
 ; Project Euler problems, 10-19
 ; keroserene
 
-
+(load "print.scm")
 (load "data.scm")
 
 ; ------------ Problem 11 ------------
@@ -49,10 +49,9 @@
 
   (define (g4 dir i) 
     (if (eq? (dir i 3) -1) -1)
-    (display (list-ref A i)) (display " ")
-    (display (list-ref A (dir i 1))) (display " ") 
-    (display (list-ref A (dir i 2))) (display " ") 
-    (display (list-ref A (dir i 3))) (display "\n") 
+    
+;    (print (list-ref A i) " " (list-ref A (dir i 1)) " " (list-ref A (dir i 2)) " " (list-ref A (dir i 3)) "\n")
+
     (* (list-ref A i) 
        (list-ref A (dir i 1))
        (list-ref A (dir i 2))
@@ -65,22 +64,23 @@
     (apply max (map (lambda (i) (g4 down i)) (range (- DIM L)))))
 
   ; Diagonals indexed from 0 to 2*DIM - 2*L, where 0 is the lowest bottom-left, DIM-L is the central diagonal, and 2*DI - 2*L is the upper right
-  (define (mD1 d)
-    (define base (+ (max 0 d) (* D (abs (min 0 d)))))
-    (display (max 0 d)) (display "\n")
-    (display base) (display "\n")
-    (map (lambda (i) (g4 dse (dse base i)))
-      (range (- 17 (abs d)))))
+  (define (mDr d)
+    (define base (+ (max 0 d) (* DIM (abs (min 0 d)))))
+    (apply max (map (lambda (i) (g4 dse (dse base i)))
+      (range (- 17 (abs d))))))
 
-;   (g4 right 0))
-;  (apply max (map (lambda (r) (mC r)) (range DIM)))
-;  (apply max (map (lambda (r) (mR r)) (range DIM))) 
-;  (apply max (map (lambda (i) (g4 diag i)) (range (-16 16)))))
-  (mD1 (- 0 15)) 
-  )
+  (define (mDl d)
+    (define base (+ (- DIM 1 (max 0 d)) (* DIM (abs (min 0 d)))))
+    (apply max (map (lambda (i) (g4 dsw (dsw base i)))
+      (range (- 17 (abs d))))))
 
+  ; MAXIMIZE IT! 
+  (max (apply max (map (lambda (c) (mC c)) (range DIM)))
+       (apply max (map (lambda (r) (mR r)) (range DIM))) 
+       (apply max (map (lambda (d) (mDr d)) (range -16 16)))
+       (apply max (map (lambda (d) (mDl d)) (range -16 16)))))
+  
 
- 
 ; ------------ Problem 17 ------------
 ; How many letters required to list numbers from 1 to 1000
 (define (p17)

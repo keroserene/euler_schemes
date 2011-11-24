@@ -74,3 +74,6 @@ Decided to turn this scheme thing into a git repo finally!i
 
 Also, random vim update. :set ts=80 is helpful!
 Furthermore, SHIFT-v to select visual line. Then "g, q" to wrap to 80 chars.
+
+
+

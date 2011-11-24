@@ -1,16 +1,13 @@
 ; Project Euler problems, 1-9
 ; keroserene
 
+(load "arith.scm")
+
 ; ------------ Problem 1 ------------
 ; "Sum all the multiples of 3 or 5 below 1000"
-; Sums m + 2m + 3m + ... + km such that km < n
-(define (sumOf m n)
-  (let ((x (quotient n m)))
-  (* m (* (+ 1 x) x 1/2))))
 
 ; By I&E, sum all multiples of 3 and multiples of 5, subtract multiples of 15
-(define (p1) (- (+ (sumOf 3 999) (sumOf 5 999)) (sumOf 15 999)))
-  
+(define (p1) (- (+ (asum 3 999) (asum 5 999)) (asum 15 999))) 
 
 ; ------------ Problem 2 ------------
 ; "Sum of the even fibonnaci numbers below 4 million"
@@ -22,7 +19,6 @@
 
 (define (p2) (fib3 1 1 (lambda (ret) ret)))
   
-
 ; ------------ Problem 3 ------------
 ; "Largest prime factor of 6008514751"
 (define p3const 600851475143)
@@ -52,16 +48,11 @@
 ; ------------ Problem 4 ------------
 ; "Largest palindromic product of two 3-digit numbers"
 
-(define (isPalindrome x)
-  (define (reversal x r)
-    (if (eq? 0 x) r  
-      (reversal (quotient x 10) (+ (* 10 r) (remainder x 10)))))
-  (eq? x (reversal x 0)))
-  
+ 
 (define (p4)
   (define (tryMult x y f)
     (if (< x 100) (f 0)
-    (if (or (isPalindrome (* x y)) (< y 100))
+    (if (or (palindrome? (* x y)) (< y 100))
       (tryMult (- x 1) x (lambda(p) (f (max p (* x y)))))
       (tryMult x (- y 1) f))))
   (tryMult 999 999 (lambda(p) p)))
@@ -155,35 +146,35 @@
 ;"sum of all the primes below two million."
 
 ; sieve of erasthowhatever with sum
-(define (soes m)
-  (define (elim x s f)
-    (if (>= x m) s
-    (if (f x) (elim (+ 2 x) s f)
-      (elim (+ 2 x) (+ s x) (lambda(v) (or (eq? 0 (remainder v x)) (f v))))
-      )))
-  (if (< m 2) 0 (elim 3 2 (lambda(x) (eq? 0 (remainder x 2)))))) 
-(define p10const 2000000)
-(define (p10) (soes p10const))
+;(define (soes m)
+;  (define (elim x s f)
+;    (if (>= x m) s
+;    (if (f x) (elim (+ 2 x) s f)
+;      (elim (+ 2 x) (+ s x) (lambda(v) (or (eq? 0 (remainder v x)) (f v))))
+;      )))
+;  (if (< m 2) 0 (elim 3 2 (lambda(x) (eq? 0 (remainder x 2)))))) 
+;(define p10const 2000000)
+;(define (p10) (soes p10const))
 
 
 ; Prime sieve using bit string (small mem, but slower)
-(define (soe2 n)
-  (let ((P (make-bit-string (- n 2) #t)))
-  (define (prime? k) (bit-string-ref P (- k 2)))
-        (define (nope! k) (bit-string-clear! P (- k 2)))
-  (let loop ((x 2))
-    (if (eq? x n)
-      ()
-      ()))
-  (define (run x)
-    (if (prime? x) (sieve x)
-      
-    (sieve (+ 1 x) )
-  (loop ((for k (in-range (from 2) (up-to n))))
-
-  (if (prime? k)
-    (loop ((for i (in-range (from (* 2 k)) (up-to n) (by k))))
-    (nope! i))))
-  (collect-list (for k (in-range (from 2) (up-to n)))
-  (if (prime? k)) k)
-))) )
+;(define (soe2 n)
+;  (let ((P (make-bit-string (- n 2) #t)))
+;  (define (prime? k) (bit-string-ref P (- k 2)))
+;        (define (nope! k) (bit-string-clear! P (- k 2)))
+;  (let loop ((x 2))
+;    (if (eq? x n)
+;      ()
+;      ()))
+;  (define (run x)
+;    (if (prime? x) (sieve x)
+;      
+;    (sieve (+ 1 x) )
+;  (loop ((for k (in-range (from 2) (up-to n))))
+;
+;  (if (prime? k)
+;    (loop ((for i (in-range (from (* 2 k)) (up-to n) (by k))))
+;    (nope! i))))
+;  (collect-list (for k (in-range (from 2) (up-to n)))
+;  (if (prime? k)) k)
+;))) )

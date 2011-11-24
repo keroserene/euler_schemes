@@ -3,9 +3,11 @@
 
 (load "print.scm")
 
-; Run problem n
+; Automatically parse/run problem n of Project Euler
 (define (pe n)
-  (define file (string-append "pe" (quotient n 10) "x.scm"))
-  (define prob (string-symbol (string-append "p" n)))
+  (define file (word "pe" (quotient n 10) "x.scm"))
+  (define prob (string->symbol (word "p" n)))
   (println "Loading " file "...")
+  (load file)
+  (println "Attempting problem #" n "... ")
   (prob))

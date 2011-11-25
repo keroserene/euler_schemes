@@ -48,3 +48,11 @@
       (reversal (quotient x 10) (+ (* 10 r) (remainder x 10)))))
   (eq? x (reversal x 0)))
  
+; nth triangular number
+(define (tri n) (* n (+ 1 n) 1/2))
+
+(define (tri? n) 
+  (integer? (/ (- (sqrt (+ 1 (* 4 2 n)))) 1) 2))
+
+(define (ltri n) (floor->exact (/ (- (sqrt (+ 1 (* 8 n))) 1) 2)))
+ 

@@ -170,17 +170,18 @@
 
   ; Left above, right above
   (define (la i) (let* ((r (ltri i)) (l (tri r))) 
-     (if (eq? l i) 0 (vector-ref T (+ (tri (- 1 r)) (- i l 1))))))
+     (if (eq? l i) 0 (vector-ref T (+ (tri (- r 1)) (- i l 1))))))
   (define (ra i) (let* ((r (ltri i)) (l (tri r))) 
-     (if (eq? (+ l r) i) 0 (vector-ref T (+ (tri (- 1 r)) (- i l))))))
+     (if (eq? (+ l r) i) 0 (vector-ref T (+ (tri (- r 1)) (- i l))))))
  
-  (define (pa! i) (vector-set! T i (+ (vector-ref T i) (max (la i) (ra i)))))
+  (define (pa! i) 
+    (vector-set! T i (+ (vector-ref T i) (max (la i) (ra i)))))
 
   (define (mx r)
     (define l (tri r))
-    ;(if (eq? 15 r) (apply max (map (lambda(i) (vector-ref T i) (range last (+ last ROWS -1)))))
     (if (eq? ROWS r) (apply max (vector->list (subvector T last (+ last ROWS))))
-    (begin (map pa! (range l (+ l r)))
-    (mx (+ 1 r)))))
+    (begin 
+      (map pa! (range l (+ l r)))
+      (mx (+ 1 r)))))
 
   (mx 0))

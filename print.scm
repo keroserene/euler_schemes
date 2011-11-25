@@ -19,4 +19,6 @@
 
 ; Horizontal Line
 (define (hl) (display "---------------------------------------------------------------------------------\n"))
- 
+
+(define (print-list l #!optional r)
+  (map (lambda(m) (print m " ")) l))

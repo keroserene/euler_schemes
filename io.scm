@@ -12,3 +12,11 @@
       (parse (string-append cw (string c)) acc)))))
   (parse "" (list)))
 
+; Returns a list of numbers from a text file, assuming N1, N2, ... format
+(define (txt->numbers file)
+  (define port (open-input-file file))
+  (define (parse acc)
+    (define n (read port))
+    (if (eof-object? n) (reverse acc)
+    (parse (cons n acc))))
+  (parse `()))

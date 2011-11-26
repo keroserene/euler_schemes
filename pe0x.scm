@@ -47,8 +47,6 @@
 
 ; ------------ Problem 4 ------------
 ; "Largest palindromic product of two 3-digit numbers"
-
- 
 (define (p4)
   (define (tryMult x y f)
     (if (< x 100) (f 0)
@@ -87,17 +85,7 @@
 ; ------------ Problem 7 ------------
 ; "10001st prime"
 
-; Sieve of erasthowhatchamawhosit
-; n - Sieve up to the nth prime (except for 2)
-(define (soe n)
-  (define (elim cnt x f)
-    (if (f x) (elim cnt (+ 2 x) f)
-    (if (eq? n (+ 1 cnt)) x
-      (elim (+ 1 cnt) (+ 2 x)
-      (lambda(v) (or (eq? 0 (remainder v x)) (f v)))))))
-  (if (< n 2) 2 (elim 1 3 (lambda(x) (eq? 0 (remainder x 2))))))
-
-(define (p7) (soe 10001))
+(define (p7) (prime 10001))
 
  ; ------------ Problem 8 ------------
 ; "Greatest product of 5 consecutive digits of the following constant"

@@ -3,8 +3,14 @@
 
 (load "print.scm")
 (load "data.scm")
-(load "arith.scm")
+(load "arith.scm") 
+(load "primes.scm")
 
+; ------------ Problem 10 ------------
+;"sum of all the primes below two million."
+(define (p10)
+  (prime-sum 2000000))
+ 
 ; ------------ Problem 11 ------------
 ; "Greatest product of 4 adjacent numbers (vertically/horizontally/diagonally)"
 

@@ -56,9 +56,6 @@
 
   (define (g4 dir i) 
     (if (eq? (dir i 3) -1) -1)
-    
-;    (print (list-ref A i) " " (list-ref A (dir i 1)) " " (list-ref A (dir i 2)) " " (list-ref A (dir i 3)) "\n")
-
     (* (list-ref A i) 
        (list-ref A (dir i 1))
        (list-ref A (dir i 2))

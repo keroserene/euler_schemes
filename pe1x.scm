@@ -85,6 +85,39 @@
        (apply max (map (lambda (d) (mDl d)) (range -16 16)))))
   
 
+; ------------ Problem 14 ------------
+; Largest Collatz chain starting under 1 million
+(define (p14)
+  (define TOTAL 1000000)
+  (define A (make-vector TOTAL 0)) ;A[n] = length of nth collatz chain
+;  (define Q (list 1)) ;Q - queue of pending items
+  (define cnt 1)
+
+  ; Evens
+  (define (col! i v) 
+    (if (< i TOTAL) 
+      (begin (set! cnt (+ 1 cnt)) 
+;             (println "EVEN! " i " is " v)
+             (vector-set! A i v))))
+
+  (define (latz x c)
+    (if (or (>= cnt TOTAL) (>= x (* 3 TOTAL))) #t
+    (begin
+;      (print "[ " cnt "] filled. Checking " x "-- ")
+      (col! (* x 2) (+ 1 c)) ; Evens
+;    (set! Q (cons (* x 2) Q))
+      (if (and (> x 9) (even? x) (eq? (modulo x 3) 1) (odd? (quotient x 3))) 
+        (begin 
+;             (println "ODD! " (quotient x 3) " is " (+ 1 c))
+	     (vector-set! A (quotient x 3) (+ 1 c))
+             (set! cnt (+ 1 cnt))
+             (latz (quotient x 3) (+ 1 c))))
+      (latz (* x 2) (+ 1 c)))))
+     
+  (latz 1 1)
+  (apply max (vector->list A)))
+  ; get the max
+
 ; ------------ Problem 17 ------------
 ; How many letters required to list numbers from 1 to 1000
 (define (p17)

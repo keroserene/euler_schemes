@@ -1,6 +1,10 @@
 ; Helper data structure functions
 ; keroserene
 
+
+; Queue
+;(define-structure queue head tail)
+
 ; True if vector contains element
 (define (vector-has? v e)
   (there-exists? (vector->list v) (lambda(x) (eq? x e))))

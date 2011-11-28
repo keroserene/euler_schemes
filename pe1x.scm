@@ -87,36 +87,60 @@
 
 ; ------------ Problem 14 ------------
 ; Largest Collatz chain starting under 1 million
+
+; 2-part algorithm... start with a bottom-up which doesnt cover everything,
+; then finish up with a top-down to get the extras
 (define (p14)
   (define TOTAL 1000000)
   (define A (make-vector TOTAL 0)) ;A[n] = length of nth collatz chain
-;  (define Q (list 1)) ;Q - queue of pending items
-  (define cnt 1)
+  (define cnt 1)  ; Must increment to TOTAL before maximization occurs
 
-  ; Evens
-  (define (col! i v) 
-    (if (< i TOTAL) 
-      (begin (set! cnt (+ 1 cnt)) 
-;             (println "EVEN! " i " is " v)
-             (vector-set! A i v))))
+  ; set length of the ith collatz chain!
+  (define (s! i v) 
+    (if (< i TOTAL) (begin 
+      (set! cnt (+ 1 cnt))    ; Increment count
+      (vector-set! A i v))))
 
-  (define (latz x c)
-    (if (or (>= cnt TOTAL) (>= x (* 3 TOTAL))) #t
+  ; Part 1 - BOTTOM UP! 
+  (define (col x c)
+    (if (or (>= cnt TOTAL) (>= x (* 2 TOTAL))) #t
     (begin
-;      (print "[ " cnt "] filled. Checking " x "-- ")
-      (col! (* x 2) (+ 1 c)) ; Evens
-;    (set! Q (cons (* x 2) Q))
+      (s! (* x 2) (+ 1 c)) ; Evens
       (if (and (> x 9) (even? x) (eq? (modulo x 3) 1) (odd? (quotient x 3))) 
         (begin 
-;             (println "ODD! " (quotient x 3) " is " (+ 1 c))
-	     (vector-set! A (quotient x 3) (+ 1 c))
-             (set! cnt (+ 1 cnt))
-             (latz (quotient x 3) (+ 1 c))))
-      (latz (* x 2) (+ 1 c)))))
+             (s! (quotient x 3) (+ 1 c))
+             (col (quotient x 3) (+ 1 c))))
+      (col (* x 2) (+ 1 c)))))
      
-  (latz 1 1)
-  (apply max (vector->list A)))
-  ; get the max
+  ; Part 2 - TOP DOWN!
+  (define (latz x)
+    (define (chain i)
+      (define (nxt) (if (even? i) (chain (/ i 2)) (chain (+ 1 (* 3 i)))))
+      (if (>= i TOTAL) (+ 1 (nxt))
+      (let ((r (vector-ref A i)))
+        (if (eq? 0 r)
+           (begin (vector-set! A i (+ 1 (nxt)))
+                  (set! cnt (+ 1 cnt))
+	   (vector-ref A i))
+	   r))))
+    (if (>= cnt TOTAL) (begin "DONE MOTHAFUCKA!" #t)
+      (begin (if (eq? (vector-ref A x) 0) (chain x))
+      (latz (- x 1)))))
+
+  ; Maximization!
+  (define (getmax i m mi)
+     (cond ((>= i TOTAL) (begin 
+            (println "Largest collats chain starting under " TOTAL ": " m "steps starting at " mi ".")
+	    mi))
+           ((> (vector-ref A i) m) (getmax (+ i 1) (vector-ref A i) i))
+	   (else (getmax (+ i 1) m mi))))
+
+  (s! 1 1)  ; Base - 1 is length 1
+  (col 1 1) ; Fill collatz upwards
+  (println cnt " indices used so far... ")
+  (latz (- TOTAL 1)) ; Fill collatz downwards
+  (println cnt "indexes finished with.")
+  (getmax 0 0 0))
 
 ; ------------ Problem 17 ------------
 ; How many letters required to list numbers from 1 to 1000

@@ -1,6 +1,8 @@
 ; Helper math functions
 ; keroserene
 
+(load "primes.scm")
+
 ; Generic exponent function
 ; Returns x raised to p
 (define (pow x p)
@@ -56,3 +58,17 @@
 
 (define (ltri n) (floor->exact (/ (- (sqrt (+ 1 (* 8 n))) 1) 2)))
  
+
+; Prime factorize! (returns a list of (prime, exponent) tuples)
+(define (factors x)
+  (define (fout p n)
+    (prime p)
+  (fout 1 x))
+
+ ; Summable of two squares?
+(define (squaresum2? x)
+  (define (check i)
+    (and (<= (square i) (/ x 2))
+      (or (integer? (sqrt (- x (square i))))
+          (check (+ 1 i)))))
+  (check 1))

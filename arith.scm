@@ -1,8 +1,6 @@
 ; Helper math functions
 ; keroserene
 
-(load "primes.scm")
-
 ; Generic exponent function
 ; Returns x raised to p
 (define (pow x p)
@@ -60,12 +58,12 @@
  
 
 ; Prime factorize! (returns a list of (prime, exponent) tuples)
-(define (factors x)
-  (define (fout p n)
-    (prime p)
-  (fout 1 x))
+(define (factors x) 0)
+;  (define (fout p n)
+;    (prime p)
+;  (fout 1 x)))
 
- ; Summable of two squares?
+; Summable of two squares? (SLOW)... try the primality tester version
 (define (squaresum2? x)
   (define (check i)
     (and (<= (square i) (/ x 2))

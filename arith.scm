@@ -70,3 +70,7 @@
       (or (integer? (sqrt (- x (square i))))
           (check (+ 1 i)))))
   (check 1))
+
+
+; Totient/divisiblity
+(define (coprime? a b) (eq? 1 (gcd a b)))

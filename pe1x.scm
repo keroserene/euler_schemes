@@ -142,8 +142,17 @@
   (println cnt "indexes finished with.")
   (getmax 0 0 0))
 
+; ------------ Problem 15 ------------
+; "manhattan walks"
+; 20x20 grid -
+(define (p15)
+  (define W 20)
+  (define H 20)
+  (binom (+ W H) W))
+   
+
 ; ------------ Problem 17 ------------
-; How many letters required to list numbers from 1 to 1000
+; "How many letters required to list numbers from 1 to 1000"
 (define (p17)
   (define (tens n)
     (case n

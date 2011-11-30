@@ -60,13 +60,14 @@
 
 ; Prime factorization - returns a list of (p,e) tuples
 (define (prime-factorize n)
-  (define v (list->vector (prime-list (+ 1 (quotient n 2))))) ;(inexact->exact (floor (sqrt n))))))
+  (define v (list->vector (reverse (prime-list (+ 1 (quotient n 2)))))) ;(inexact->exact (floor (sqrt n))))))
   (define len (vector-length v))
   (define (dout x p e acc)
-    (if (>= p len) (begin (println "LOL" x) (if (<= x 1) acc (cons (list x 1) acc)))
+    (if (>= p len) (if (<= x 1) acc (cons (list x 1) acc))
     (let* ((pr (vector-ref v p)) (d (/ x pr)))
+  ;    (println "factorstep " x " / " pr " gives " d " (with prev exponent " e ")")
       (if (integer? d) (dout d p (+ 1 e) acc) ; Next power
-                       (dout x (+ 1 p) 0 (if (> e 0) (cons (list pr e) acc) acc))))))
+      (dout x (if (< d 1) len (+ 1 p)) 0 (if (> e 0) (cons (list pr e) acc) acc))))))
   (dout n 0 0 (list)))
 
 

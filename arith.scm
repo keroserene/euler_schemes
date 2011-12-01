@@ -56,13 +56,6 @@
 
 (define (ltri n) (floor->exact (/ (- (sqrt (+ 1 (* 8 n))) 1) 2)))
  
-
-; Prime factorize! (returns a list of (prime, exponent) tuples)
-(define (factors x) 0)
-;  (define (fout p n)
-;    (prime p)
-;  (fout 1 x)))
-
 ; Summable of two squares? (SLOW)... try the primality tester version
 (define (squaresum2? x)
   (define (check i)
@@ -71,6 +64,13 @@
           (check (+ 1 i)))))
   (check 1))
 
+; Permutations
+(define (permutations-of x d)
+  (define l (int->list x)) 0)
 
 ; Totient/divisiblity
 (define (coprime? a b) (eq? 1 (gcd a b)))
+
+(define (totient n) 0)
+
+(define (cototient n) (- n (totient n)))

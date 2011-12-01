@@ -1,14 +1,19 @@
 ; Helper data structure functions
 ; keroserene
 
+(load "print.scm")
 
 ; Queue
 ;(define-structure queue head tail)
 
+(define (list-empty? l) (eq? `() l))
+
+(define (list-has? l e)
+  (there-exists? l (lambda(x) (eq? x e))))
+
 ; True if vector contains element
 (define (vector-has? v e)
-  (there-exists? (vector->list v) (lambda(x) (eq? x e))))
-
+  (list-has? (vector->list v) e))
 
 ; Automatically create list containing numbers within range from a to b to c
 ; With just a, creates list (0, 1, ... a-1)
@@ -21,3 +26,12 @@
   (let ((n (+ 1 (- b a))))
   (vector->list (make-initialized-vector 
     (+ (quotient n c) (if (eq? 0 (remainder n c)) 0 1)) (lambda(i) (+ (* i c) a))))))
+
+
+; Remove duplicates from a list (Does not preserve order)
+(define (remove-duplicates li)
+  (define (check! sli acc)
+    (if (list-empty? sli) acc
+;      (begin (println "Whatsup " (car sli))
+      (check! (cdr sli) (if (list-has? acc (car sli)) acc (begin (println "new stuff") (cons (car sli) acc))))))
+  (check! li (list)))

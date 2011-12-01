@@ -62,3 +62,57 @@
 
 ; Better way to do it?
 (define p90b 0)	
+
+
+; ------------ Problem 92 ------------
+; Squares chain
+
+; Note: Iterating from 1 to 10 million takes way too long.
+; Alternate: Using permutation of digits!
+(define (p92)
+  ; Maximum value of added digits is summing all 9s
+  (define PWR 7)
+  (define TOTAL (pow 10 PWR))
+  (define maxv (+ 1 (* 7 (square 9))))
+  (define A (make-vector maxv 0))
+  (define (nxt x) (apply + (map square (int->list x))))
+
+;  (define (count i acc)
+;    (println "countage " i "->" (nxt i) " cur: " acc)
+;    (if (>= i TOTAL) acc
+;    (count (+ 1 i) (+ acc (if (eq? 1 (vector-ref A (nxt i))) 0 1)))))
+
+  (define (count i d x f)
+
+    ; Number of integers of a certn digit length containing te same digits as x
+    (define (permutations-of x)
+      (perm (+ 1 i) 
+
+    (if (>= i TOTAL) (* (nxt x) (permutations-of x))
+    (if (> d 9) (f 0)
+      (count (+ 1 i) d (+ (* 10 x) d)
+        (lambda (s1) (count (+ 1 i) (+ 1 d) (+ (* 10 x) (+ 1 d)) 
+	  (lambda(s2) (f (+ s1 s2))))))
+
+  (define (sc! i)
+    ; Continuation filling
+    (define (chain x f)
+      (if (>= x maxv) (chain (nxt x) f)
+      (if (eq? 0 (vector-ref A x))
+        (chain (nxt x) (lambda (v) (begin (if (< x maxv) (vector-set! A x v) (f v)))))
+        (f (if (eq? 1 (vector-ref A x)) 1 89)))))
+
+    ; Finished
+    (if (>= i maxv) #t
+    (begin 
+      (if (eq? 0 (vector-ref A i))
+        (chain (nxt i) (lambda (v) (vector-set! A i v))))
+      (sc! (+ 1 i)))))
+
+  (vector-set! A 1 1) ; BASE CASES
+  (vector-set! A 89 89)
+  (println maxv)
+  (println "Filling base array...")
+  (sc! 1)
+  (println "Counting...")
+  (count 1 0))

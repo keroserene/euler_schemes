@@ -11,6 +11,8 @@
     (rec (* x acc) (+ 1 n))))
   (rec 1 0))
 
+(define (reciprocal x) (/ 1 x))
+
 ; Returns the nth digit of x (right to left, 0-indexed)
 ; Returns 0 if n is invalid index for x
 ; Requires: n >= 1

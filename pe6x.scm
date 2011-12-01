@@ -1,7 +1,24 @@
 ; Project Euler problems, 60-69
 ; keroserene
  
- (load "io.scm")
+(load "io.scm")
+(load "arith.scm")
+
+; ------------ Problem 65 ------------
+; "Find the sum of digits in the numerator of the 100th convergent of the continued fraction for e."
+
+(define (p65)
+  (define (kth k) (if (eq? 1 (modulo k 3)) (* 2 (+ 1 (quotient k 3))) 1))
+
+  (define (kcoe k) 
+    (define (nc i f)
+      (if (>= i k) (f 0)
+        (nc (+ 1 i) (lambda (q) (f (/ 1 (+ (kth i) q)))))))
+    (nc 0 (lambda (r) (+ 2 r))))
+	
+  (apply + (int->list (numerator (kcoe 99)))))
+
+
 
 ; ------------ Problem 67 ------------
 ; "largest sum from top to bottom of a huge triangle"

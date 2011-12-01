@@ -80,15 +80,12 @@
   (define (nxt x) (apply + (map square (int->list x))))
 
   (define (count i d x f)
-;    (println "index: " i " digit: " d " x: " x)
     ; Number of integers of a certn digit length containing te same digits as x
-    (if (>= i PWR) 
-	      (let ((n (nxt x))
-	            (p (permutations-of (int->list x))))
-              ;(begin (println "Permutations of " x ": " p "    sq: " n "    v: " (vector-ref A n))
-	      (f (if (eq? (vector-ref A n) 89) 
-	             (permutations-of (int->list x) PWR)
-		     0)))
+    (if (>= i PWR) (let ((n (nxt x))
+       (p (permutations-of (int->list x))))
+       (f (if (eq? (vector-ref A n) 89) 
+         (permutations-of (int->list x) PWR) 0)))
+    
     (if (> d 9) (f 0)
       (count (+ 1 i) d (+ (* 10 x) d)
         (lambda (s1) (count i (+ 1 d) x
@@ -97,30 +94,25 @@
   (define (sc! i)
     ; Updating reference array
     (define (update i v)
-      ;(println i " <- " v)
       (vector-set! A i v) #t)
 
     ; Continuation filling
     (define (chain x f)
-;      (print x "->")
       (if (>= x maxv) (chain (nxt x) f)
       (if (eq? 0 (vector-ref A x))
         (chain (nxt x) (lambda (v) (begin (update x v) (f v))))
-;        (begin (println "FIN " (vector-ref A x)) 
 	(f (if (eq? 1 (vector-ref A x)) 1 89)))))
+
     ; Finished
     (if (>= i maxv) #t
     (begin 
       (if (eq? 0 (vector-ref A i))
         (chain (nxt i) (lambda (v) (update i v))))
-;      (println i " = " (vector-ref A i))
       (sc! (+ 1 i)))))
 
   (vector-set! A 1 1) ; BASE CASES
   (vector-set! A 89 89)
-  (println maxv)
   (println "Filling ref array...")
   (sc! 1)
   (println A)
-  (println "Counting...")
   (count 0 0 0 (lambda (s) s)))

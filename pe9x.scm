@@ -1,6 +1,8 @@
 ; Project Euler problems, 90-99
 ; keroserene
 
+(load "arith.scm")
+
 ; ------------ Problem 90 ------------
 ; Squares and cubes
 
@@ -73,44 +75,52 @@
   ; Maximum value of added digits is summing all 9s
   (define PWR 7)
   (define TOTAL (pow 10 PWR))
-  (define TPERM (! PWR))
-  (define maxv (+ 1 (* 7 (square 9))))
+  (define maxv (+ 1 (* PWR (square 9))))
   (define A (make-vector maxv 0))
   (define (nxt x) (apply + (map square (int->list x))))
 
-;  (define (count i acc)
-;    (println "countage " i "->" (nxt i) " cur: " acc)
-;    (if (>= i TOTAL) acc
-;    (count (+ 1 i) (+ acc (if (eq? 1 (vector-ref A (nxt i))) 0 1)))))
-
   (define (count i d x f)
-
+;    (println "index: " i " digit: " d " x: " x)
     ; Number of integers of a certn digit length containing te same digits as x
-    (if (>= i TOTAL) (* (nxt x) (permutations-of (int->list x)))
+    (if (>= i PWR) 
+	      (let ((n (nxt x))
+	            (p (permutations-of (int->list x))))
+              ;(begin (println "Permutations of " x ": " p "    sq: " n "    v: " (vector-ref A n))
+	      (f (if (eq? (vector-ref A n) 89) 
+	             (permutations-of (int->list x) PWR)
+		     0)))
     (if (> d 9) (f 0)
       (count (+ 1 i) d (+ (* 10 x) d)
-        (lambda (s1) (count (+ 1 i) (+ 1 d) (+ (* 10 x) (+ 1 d)) 
-	  (lambda(s2) (f (+ s1 s2))))))
+        (lambda (s1) (count i (+ 1 d) x
+	  (lambda(s2) (f (+ s1 s2)))))))))
 
   (define (sc! i)
+    ; Updating reference array
+    (define (update i v)
+      ;(println i " <- " v)
+      (vector-set! A i v) #t)
+
     ; Continuation filling
     (define (chain x f)
+;      (print x "->")
       (if (>= x maxv) (chain (nxt x) f)
       (if (eq? 0 (vector-ref A x))
-        (chain (nxt x) (lambda (v) (begin (if (< x maxv) (vector-set! A x v) (f v)))))
-        (f (if (eq? 1 (vector-ref A x)) 1 89)))))
-
+        (chain (nxt x) (lambda (v) (begin (update x v) (f v))))
+;        (begin (println "FIN " (vector-ref A x)) 
+	(f (if (eq? 1 (vector-ref A x)) 1 89)))))
     ; Finished
     (if (>= i maxv) #t
     (begin 
       (if (eq? 0 (vector-ref A i))
-        (chain (nxt i) (lambda (v) (vector-set! A i v))))
+        (chain (nxt i) (lambda (v) (update i v))))
+;      (println i " = " (vector-ref A i))
       (sc! (+ 1 i)))))
 
   (vector-set! A 1 1) ; BASE CASES
   (vector-set! A 89 89)
   (println maxv)
-  (println "Filling base array...")
+  (println "Filling ref array...")
   (sc! 1)
+  (println A)
   (println "Counting...")
-  (count 1 0))
+  (count 0 0 0 (lambda (s) s)))

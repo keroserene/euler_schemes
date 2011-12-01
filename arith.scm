@@ -67,15 +67,17 @@
   (check 1))
 
 ; Permutations of a list
-(define (permutations-of l)
+(define (permutations-of l #!optional total)
   (define len (length l))
+  (define xtra (if (eq? #!default total) 0 (- total len)))
+
   (define v (sort l <))
   (define (cd sl c d acc)
     (if (list-empty? sl) (* acc (! d))
     (if (eq? (car sl) c) (cd (cdr sl) c (+ 1 d) acc)
     (cd (cdr sl) (car sl) 1 (* acc (! d))))))
 
-  (/ (! (length l)) (cd v #f 0 1)))
+  (/ (! (+ len xtra)) (cd v #f 0 1) (! xtra)))
 
 ; Totient/divisiblity
 (define (coprime? a b) (eq? 1 (gcd a b)))

@@ -1,7 +1,7 @@
 ; Helper data structure functions
 ; keroserene
 
-(load "print.scm")
+;(load "print.scm")
 
 ; Queue
 ;(define-structure queue head tail)
@@ -32,6 +32,5 @@
 (define (remove-duplicates li)
   (define (check! sli acc)
     (if (list-empty? sli) acc
-;      (begin (println "Whatsup " (car sli))
-      (check! (cdr sli) (if (list-has? acc (car sli)) acc (begin (println "new stuff") (cons (car sli) acc))))))
+      (check! (cdr sli) (if (list-has? acc (car sli)) acc (cons (car sli) acc)))))
   (check! li (list)))

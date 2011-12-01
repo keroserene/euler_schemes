@@ -1,6 +1,8 @@
 ; Helper math functions
 ; keroserene
 
+(load "data.scm")
+
 ; Generic exponent function
 ; Returns x raised to p
 (define (pow x p)
@@ -64,9 +66,16 @@
           (check (+ 1 i)))))
   (check 1))
 
-; Permutations
-(define (permutations-of x d)
-  (define l (int->list x)) 0)
+; Permutations of a list
+(define (permutations-of l)
+  (define len (length l))
+  (define v (sort l <))
+  (define (cd sl c d acc)
+    (if (list-empty? sl) (* acc (! d))
+    (if (eq? (car sl) c) (cd (cdr sl) c (+ 1 d) acc)
+    (cd (cdr sl) (car sl) 1 (* acc (! d))))))
+
+  (/ (! (length l)) (cd v #f 0 1)))
 
 ; Totient/divisiblity
 (define (coprime? a b) (eq? 1 (gcd a b)))

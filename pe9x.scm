@@ -73,6 +73,7 @@
   ; Maximum value of added digits is summing all 9s
   (define PWR 7)
   (define TOTAL (pow 10 PWR))
+  (define TPERM (! PWR))
   (define maxv (+ 1 (* 7 (square 9))))
   (define A (make-vector maxv 0))
   (define (nxt x) (apply + (map square (int->list x))))
@@ -85,10 +86,7 @@
   (define (count i d x f)
 
     ; Number of integers of a certn digit length containing te same digits as x
-    (define (permutations-of x)
-      (perm (+ 1 i) 
-
-    (if (>= i TOTAL) (* (nxt x) (permutations-of x))
+    (if (>= i TOTAL) (* (nxt x) (permutations-of (int->list x)))
     (if (> d 9) (f 0)
       (count (+ 1 i) d (+ (* 10 x) d)
         (lambda (s1) (count (+ 1 i) (+ 1 d) (+ (* 10 x) (+ 1 d)) 

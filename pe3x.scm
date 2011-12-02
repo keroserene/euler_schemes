@@ -1,7 +1,8 @@
 ; Project Euler problems, 30-39
 ; keroserene
 
-(load "data.scm")
+(load "primes.scm")
+(load "arith.scm")
 
 ; ------------ Problem 31 ------------
 ; "ways to make a 2e (200p) currency"
@@ -16,7 +17,6 @@
   (define (mem i) (vector-ref CNT i))
   (define (inc i) 
     (begin (display "rofling ") (display i) (display "\n") (vector-set! CNT i (+ (vector-ref CNT i) 1))))
-               
 
   (define (count i s f)
     (if (>= i NCOINS) (f 0)
@@ -27,3 +27,31 @@
 
   (display "Ways to make ") (display TOTAL) (display " pence: ")
   (count 1 0 (lambda(s) (+ 1 s))))
+
+
+; ------------ Problem 35 ------------
+; "Circular primes under 1 million"
+
+(define (p35)
+  (define TOTAL 1000000)
+  (println "Generating Primes...")
+  (define pl (prime-list TOTAL))
+  (println "Vectorizing...")
+  (define ps (intlist->vectorize pl))
+  (define mxps (vector-length ps))
+  (define (count spl acc)
+    (define (test-circular x)
+      (define nl (number-length x))
+      (define (nxt? y) 
+;        (print " " y "~ ")
+        (if (>= y mxps) 0
+        (let ((v (vector-ref ps y)))
+          (if (eq? x y) 1
+;	    (begin (println x " is circulargh") 1)
+          (if (> v 0) (nxt? (rotate-number y nl)) 0)))))
+      (nxt? (rotate-number x nl)))
+
+    (if (list-empty? spl) acc
+      (count (cdr spl) (+ acc (test-circular (car spl))))))
+  (println "Counting circular primes...")
+  (count pl 0))

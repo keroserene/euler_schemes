@@ -4,6 +4,8 @@
 
 ; sieve of erasthothenes
 
+; Currently takes ~10 seconds to generate primes under 1 million
+
 ; Returns the x-th prime.
 ; cap - Maximum capacity of number. (Smaller for faster sieves)
 ; sum? - Whether to take a sum of all the primes or not #t or #f
@@ -33,9 +35,6 @@
        (if s? sum
        (if ls? acc))
     (if (eq? 0 k) x            ; Exceed count bound... done
-;       (if s? (+ sum x) x))
-;       (if s? sum
-;       (if ls? acc x)))
 
     (if (not (p? x)) (pr nx k (not four?) sum acc)  ; Not prime -> continue!
     (begin (fill! x) ; PRIME!
@@ -56,7 +55,6 @@
 ; Return a list of primes <= x
 (define (prime-list x)
   (prime 1337 x #f #t #t))
-
 
 ; Prime factorization - returns a list of (p,e) tuples
 (define (prime-factorize n)

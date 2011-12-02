@@ -15,6 +15,9 @@
 (define (vector-has? v e)
   (list-has? (vector->list v) e))
 
+; Increment integer of a vector
+(define (vector-int++ v i) (vector-set! v i (+ 1 (vector-ref v i))))
+
 ; Automatically create list containing numbers within range from a to b to c
 ; With just a, creates list (0, 1, ... a-1)
 ; With both a and b, creates list (a, ... , b) inclusive

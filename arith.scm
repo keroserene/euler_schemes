@@ -20,6 +20,18 @@
   (if (< n 0) 0
   (modulo (quotient x (pow 10 n)) 10)))
 
+(define (number-length x) 
+  (define (dout x i)
+    (if (eq? 0 x) i (dout (quotient x 10) (+ 1 i))))
+  (dout x 0))
+
+; eg. xyz -> yzx
+(define (rotate-number x #!optional len) 
+  (define ofs (if (eq? #!default len) (pow 10 (number-length x)) (pow 10 len)))
+  (define ts (* x 10))
+  (+ (modulo ts ofs) (quotient ts ofs)))
+
+
 ; Turns an integer into a list of its digits, left to right
 (define (int->list x)
   (define (f x acc) 
@@ -38,6 +50,16 @@
 (define (binom n k)
   (if (< n k) 0 (/ (! n) (* (! k) (! (- n k))))))
 
+; Returns a vector with max(list) indices, and integer counters for number of occurences in the list
+; Integer list must contain only naturals (n >= 0)
+(define (intlist->vectorize l)
+  (define m (apply max l))
+  (define v (make-vector (+ 1 m) 0))
+  (define (run! sl)
+    (if (list-empty? sl) v
+    (begin (vector-int++ v (car sl))
+    (run! (cdr sl)))))
+  (run! l))
 
 ; Arithmetic sum m + 2m + 3m + ... + km such that km < n
 (define (asum m n)

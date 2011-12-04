@@ -26,7 +26,7 @@
     ((100) "C")
     ((500) "D")
     ((1000) "M")
-    (else (let* ((s (pow 10 (- (number-length v) 1)))
+    (else (let* ((s (min 1000 (pow 10 (- (number-length v) 1))))
                  (f (* 5 s)))
       (if (> (- v f) 0)
         (string-append (val->romechar f) (val->romechar (- v f)))
@@ -56,9 +56,10 @@
   (define l (- (number-length x) 1))
   (define msd (digit x l))
   (define msp (* msd (pow 10 l)))
+
   (if (eq? 0 x) ""
   ; of subtraction factor
-  (if (and (< l 4)
+  (if (and (< l 3)
       (or (eq? msd 4) (eq? msd 9)))
 
       (let* ((sd (pow 10 l))

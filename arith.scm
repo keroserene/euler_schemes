@@ -9,7 +9,8 @@
   (define (rec acc n)
     (if (eq? p n) acc
     (rec (* x acc) (+ 1 n))))
-  (rec 1 0))
+  (if (< p 0) (/ 1 (pow x (- 0 p)))
+      (rec 1 0)))
 
 (define (reciprocal x) (/ 1 x))
 

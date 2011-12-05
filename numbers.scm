@@ -4,6 +4,44 @@
 (load "data.scm")
 (load "arith.scm")
 
+; ----------- DIGITS -------------
+
+; Returns the nth digit of x (right to left, 0-indexed)
+; Returns 0 if n is invalid index for x
+; Requires: n >= 1
+(define (digit x n)
+  (if (< n 0) 0
+  (modulo (quotient x (pow 10 n)) 10)))
+
+(define (number-length x) 
+  (define (dout x i)
+    (if (eq? 0 x) i (dout (quotient x 10) (+ 1 i))))
+  (dout x 0)) 
+
+; eg. xyz -> yzx
+(define (rotate-number x #!optional len) 
+  (define ofs (if (eq? #!default len) (pow 10 (number-length x)) (pow 10 len)))
+  (define ts (* x 10))
+  (+ (modulo ts ofs) (quotient ts ofs)))
+
+; Turns an integer into a list of its digits, left to right
+(define (int->list x)
+  (define (f x acc) 
+    (if (eq? 0 x) acc
+        (f (quotient x 10) (cons (digit x 0) acc))))
+  (cond ((eq? 0 x) `(0))
+        (else (f x `()))))
+ 
+
+; Turns a list of digits into an integer
+(define (list->int l)
+  (define (parse sl i acc)
+    (if (eq? `() sl) acc
+    (parse (cdr sl) (- i 1) (+ acc (* (car sl) (pow 10 i))))))
+  (parse l (- (length l) 1) 0))
+
+; ----------- ROMAN NUMERALS -------------
+
 ; Character -> value
 (define (romechar->val c)
   (case c

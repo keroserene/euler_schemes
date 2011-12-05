@@ -32,13 +32,23 @@
   (cond ((eq? 0 x) `(0))
         (else (f x `()))))
  
-
 ; Turns a list of digits into an integer
 (define (list->int l)
   (define (parse sl i acc)
     (if (eq? `() sl) acc
     (parse (cdr sl) (- i 1) (+ acc (* (car sl) (pow 10 i))))))
   (parse l (- (length l) 1) 0))
+
+(define (pandigital? x)
+  (define bits (make-bit-string 9 #f))
+  (define expected #*111111111)
+
+  (define (run v)
+    (if (list-empty? v) (bit-string=? bits expected)
+    (if (bit-string-ref bits (- (car v) 1)) #f
+    (begin (bit-string-set! bits (- (car v) 1)) (run (cdr v))))))
+  (run (int->list x)))
+
 
 ; ----------- ROMAN NUMERALS -------------
 

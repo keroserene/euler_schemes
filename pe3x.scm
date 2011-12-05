@@ -29,6 +29,28 @@
   (count 1 0 (lambda(s) (+ 1 s))))
 
 
+; ------------ Problem 32 ------------
+; "pandigital products"
+
+; For 1-9 pandigital, the products axb=c
+; must be such that a is 2 digits and b is 3 digits, and c is 4 digits
+; It is impossible to have 3 digits * 3 digits = 3 digits,
+; and it is impossible to have 2 * 2 digits = >= 5 digits,
+; lastly, the first 2 digits of a and b must have a product < 10 so that c is 4 digits.
+; This includes {1 and 2-7}, {2 and 3, 4}
+(define (p32)
+  (define ds #(1 2 3 4 5 6 7 8 9))
+  (define abpairs #(`(1 2) `(1 3) `(1 4) `(1 5) `(1 6) `(1 7)
+
+  (define (check a b c)
+    (
+
+  (check (
+
+
+
+
+
 ; ------------ Problem 35 ------------
 ; "Circular primes under 1 million"
 

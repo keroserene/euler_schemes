@@ -3,7 +3,7 @@
 
 
 (load "arith.scm")
-
+        i
 ; ------------ Problem 360 ------------
 ;"sum of manhattan distances of integer coordinates on sphere"
 
@@ -32,4 +32,11 @@
 
 
  
- 
+; ------------ Problem 361 ------------
+; "Thue-Morse sequence"
+
+; Basically it consists of every binary number that dose not contain 3 or more consecutive 1s or 0s
+; 0, 1, 10, 11, 100, 101, 110, 1001, 1010, 1011, 1100, 1101, 10010, 10011, 10100, 10101, 10110, 11001, 11010, 11011
+; 1 2 3 4 5 6 9 10 11 12 13 18 19 20 21 22 25 26 27
+(define (p361)
+  0)

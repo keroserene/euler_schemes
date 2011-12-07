@@ -45,9 +45,14 @@
 
   (define (run v)
     (if (list-empty? v) (bit-string=? bits expected)
+    (if (eq? 0 (car v)) #f
     (if (bit-string-ref bits (- (car v) 1)) #f
-    (begin (bit-string-set! bits (- (car v) 1)) (run (cdr v))))))
+    (begin (bit-string-set! bits (- (car v) 1)) (run (cdr v)))))))
   (run (int->list x)))
+
+(define (append-ints a b)
+  (+ b (* a (pow 10 (number-length b)))))
+
 
 
 ; ----------- ROMAN NUMERALS -------------

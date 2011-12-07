@@ -36,6 +36,11 @@
     (run! (cdr sl)))))
   (run! l))
 
+
+; Cross products list a with list b)
+(define (cross a b)
+  (fold-left (lambda(acc e) (append acc (map (lambda(be) (list e be)) b))) (list) a))
+
 ; Arithmetic sum m + 2m + 3m + ... + km such that km < n
 (define (asum m n)
   (let ((x (quotient n m)))

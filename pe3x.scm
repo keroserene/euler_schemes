@@ -3,6 +3,7 @@
 
 (load "primes.scm")
 (load "arith.scm")
+(load "numbers.scm")
 
 ; ------------ Problem 31 ------------
 ; "ways to make a 2e (200p) currency"
@@ -39,13 +40,49 @@
 ; lastly, the first 2 digits of a and b must have a product < 10 so that c is 4 digits.
 ; This includes {1 and 2-7}, {2 and 3, 4}
 (define (p32)
-  (define ds #(1 2 3 4 5 6 7 8 9))
-  (define abpairs #(`(1 2) `(1 3) `(1 4) `(1 5) `(1 6) `(1 7)
+  (define ds `(1 2 3 4 5 6 7 8 9))
+  (define pairs (list->vector (list `(1 2) `(1 3) `(1 4) `(1 5) `(1 6) `(1 7) `(2 3) `(2 4) `(3 2))))
+;  (define pairs #(`(1 2) `(1 3) `(1 4) `(1 5) `(1 6) `(1 7) `(2 3) `(2 4)))
+  (define cnt (vector-length pairs))
+  (define ANS (list)) ; Avoid duplicates
 
-  (define (check a b c)
-    (
+  ; Two digits * 3 digits
+  (define (pp i acc)
+    (define (pcheck a b)
+      (define an (list->int a))
+      (define bn (list->int b))
+      (define cn (* an bn))
+      (define dn (list->int (append a b (int->list cn))))
+;      (println an " * " bn " = " cn    " --- " dn)
+      (if (>= cn 10000) 0
+      (if (and (pandigital? dn) (not (list-has? ANS cn))) 
+        (begin (println "pandigital: " an " * " bn "=" cn) (set! ANS (cons cn ANS)) cn) 0)))
 
-  (check (
+    (if (>= i cnt) acc
+    (pp (+ 1 i) (+ acc 
+       ; Prepare permutations of the digits
+       (let* ((pr (vector-ref pairs i)) (a1 (first pr)) (a2 (second pr))
+           (dgs (filter (lambda(x) (not (or (eq? a1 x) (eq? a2 x)))) ds))
+	   (perms (filter (lambda(e) 
+                    (not (or (eq? (first e) (first (second e)))
+		             (eq? (first e) (second (second e)))
+		             (eq? (second (second e)) (first (second e))))))
+                     (cross dgs (cross dgs dgs)))))
+           ; Map the sum of valid pandigital products
+         (println "ppin " i " with " a1 " and " a2)
+         (apply + (map (lambda(e) 
+	     (+ (pcheck (list a2 (first e)) (cons a1 (second e)))
+	        (pcheck (list a2 (first e)) (cons a1 (second e)))
+                (pcheck (list (first e)) (cons a1 (cons a2 (second e))))
+                (pcheck (list (first e)) (cons a2 (cons a1 (second e))))
+                (pcheck (list a1) (cons a2 (cons (first e) (second e))))
+                (pcheck (list a1) (cons (first e) (cons a2 (second e))))
+                (pcheck (list a2) (cons a1 (cons (first e) (second e))))
+                (pcheck (list a2) (cons (first e) (cons a1 (second e))))
+		))
+              perms)))))))
+
+  (pp 0 0))
 
 
 

@@ -1,6 +1,7 @@
 ; Project Euler problems, 40-49
 ; keroserene
  
+(load "primes.scm")
 (load "arith.scm")
 (load "words.scm")
 
@@ -87,6 +88,34 @@
 
 
 
+; ------------ Problem 46 ------------
+; "smallest odd composite that cannot be written as the sum of a prime and twice a square"
+
+; AWARD: EASY AS PI - FINAL PROBLEM
+(define (p46)
+  (define TOTAL 10000)
+  (define pl (reverse (prime-list TOTAL)))
+  (define odds (range 3 TOTAL 2))
+  (define oc (list->vector (filter (lambda(x) (not (list-has? pl x))) odds)))
+  (define oclen (vector-length oc))
+
+  ; Determines if a number can be goldbahed
+  (define (goldbach? x)
+    (define (tryprime pli)
+      (if (list-empty? pli) (begin (println "Prime list exhausted... increase constant") #f)
+      (let ((p (car pli)))
+        (if (>= p x) (begin (println "Found non-goldbach odd: " x) #f) ; success
+	(if (integer? (sqrt (/ (- x p) 2))) 
+	  (begin (println x " christian gold-bach decomposes by prime " p) #t )
+	  (tryprime (cdr pli)))))))
+    (tryprime pl))
+
+  (define (search i)
+    (if (>= i oclen) (println "Could not find non-goldbach composite odd. Solution likely to be higher than " TOTAL ". Increase constant...")
+    (let ((odd (vector-ref oc i)))
+      (if (goldbach? odd) (search (+ i 1))
+      odd))))
+  (search 0))
 
 ; ------------ Problem 48 ------------
 ; "Last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000

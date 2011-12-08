@@ -9,6 +9,8 @@
 ; ------------ Problem 89 ------------
 ; "Minimal roman numerals"
 
+; AWARD: EASY AS PI - 7th PROBLEM
+
 (define (p89)
   (define a (map symbol->string (txt->numbers "roman.txt")))
   (define (opt s r)

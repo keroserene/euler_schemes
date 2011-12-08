@@ -12,6 +12,8 @@
 ; ------------ Problem 79 ------------
 ; Shortest possible secret passcode
 
+; AWARD: EASY AS PI - 8th PROBLEM
+
 ; Algorithm: scan list and identify first-digits only
 (define (p79)
   (define a (list->vector (map int->list (txt->numbers "keylog.txt"))))

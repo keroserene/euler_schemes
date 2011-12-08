@@ -33,6 +33,8 @@
 ; ------------ Problem 32 ------------
 ; "pandigital products"
 
+; AWARD: EASY AS PI - 9th PROBLEM
+
 ; For 1-9 pandigital, the products axb=c
 ; must be such that a is 2 digits and b is 3 digits, and c is 4 digits
 ; It is impossible to have 3 digits * 3 digits = 3 digits,
@@ -86,6 +88,8 @@
 ; ------------ Problem 35 ------------
 ; "Circular primes under 1 million"
 
+; AWARD: EASY AS PI - 6th PROBLEM
+
 (define (p35)
   (define TOTAL 1000000)
   (println "Generating Primes...")
@@ -113,6 +117,8 @@
 
 ; ------------ Problem 38 ------------
 ; "largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product of an integer with (1,2, ... , n) where n > 1?"
+
+; AWARD: EASY AS PI - 10th PROBLEM
 
 ; Given max of 9 digits, n <= 9
 ; Guaranteed largest pandigital number must be 987654321, but n = 1 here

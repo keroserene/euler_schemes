@@ -88,6 +88,8 @@
 ; ------------ Problem 14 ------------
 ; Largest Collatz chain starting under 1 million
 
+; AWARD: EASY AS PI - 2nd PROBLEM
+
 ; 2-part algorithm... start with a bottom-up which doesnt cover everything,
 ; then finish up with a top-down to get the extras
 (define (p14)
@@ -144,7 +146,10 @@
 
 ; ------------ Problem 15 ------------
 ; "manhattan walks"
-; 20x20 grid -
+; 20x20 grid - LOL TRIVIALITY
+
+; AWARD: EASY AS PI - 3rd PROBLEM
+
 (define (p15)
   (define W 20)
   (define H 20)

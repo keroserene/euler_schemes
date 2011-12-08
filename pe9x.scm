@@ -69,6 +69,8 @@
 ; ------------ Problem 92 ------------
 ; Squares chain
 
+; AWARD: EASY AS PI - 4th PROBLEM
+
 ; Note: Iterating from 1 to 10 million takes way too long.
 ; Alternate: Using permutation of digits!
 (define (p92)

@@ -7,6 +7,7 @@
 ; ------------ Problem 65 ------------
 ; "Find the sum of digits in the numerator of the 100th convergent of the continued fraction for e."
 
+; AWARD: EASY AS PI - 5th PROBLEM
 (define (p65)
   (define (kth k) (if (eq? 1 (modulo k 3)) (* 2 (+ 1 (quotient k 3))) 1))
 

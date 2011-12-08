@@ -21,6 +21,8 @@
   
 ; ------------ Problem 3 ------------
 ; "Largest prime factor of 6008514751"
+
+; AWARD: EASY AS PI - 1st PROBLEM
 (define p3const 600851475143)
 
 ; Divide out entire factor

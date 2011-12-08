@@ -68,7 +68,10 @@
       (dout x (if (< d 1) len (+ 1 p)) 0 (if (> e 0) (cons (list pr e) acc) acc))))))
   (dout n 0 0 (list)))
 
-
+; Factorization approach
+(define (prime? x)
+  (let ((l (prime-factorize x)))
+    (and (eq? 1 (length l)) (eq? 1 (second (car l))))))
 
 ; Sieve of erasthowhatchamawhosit for primes using continuations
 ; This one is actually really slow... :(

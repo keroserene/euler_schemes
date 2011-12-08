@@ -3,6 +3,7 @@
 
 (load "data.scm")
 (load "arith.scm")
+(load "words.scm")
 
 ; ----------- DIGITS -------------
 
@@ -33,11 +34,18 @@
         (else (f x `()))))
  
 ; Turns a list of digits into an integer
+; Empty list returns #f
 (define (list->int l)
   (define (parse sl i acc)
-    (if (eq? `() sl) acc
+    (if (list-empty? sl) acc
     (parse (cdr sl) (- i 1) (+ acc (* (car sl) (pow 10 i))))))
-  (parse l (- (length l) 1) 0))
+  (if (list-empty? l) #f
+  (parse l (- (length l) 1) 0)))
+
+
+(define (string->int s)
+  (list->int (map char->int (string->list s))))
+
 
 (define (pandigital? x)
   (define bits (make-bit-string 9 #f))
@@ -52,6 +60,17 @@
 
 (define (append-ints a b)
   (+ b (* a (pow 10 (number-length b)))))
+
+; Converts a "a, b, c" string into list of integers a b c, with or without commas
+(define (string->intlist s)
+  (define (parse sl c a)
+    (if (list-empty? sl) (reverse (if (empty-string? c) a (cons (string->int c) a)))
+    (case (car sl)
+      ((#\, #\space) (parse (cdr sl) "" (if (empty-string? c) a (cons (string->int c) a))))
+      (else (parse (cdr sl) (string c (car sl)) a)))))
+  (parse (string->list s) "" `()))
+
+
 
 
 ; ----------- ROMAN NUMERALS -------------

@@ -14,7 +14,9 @@
 
 ; Casting integer -> string ie. 123 becomes "123"
 (define (int->string n)
-   (apply string (map int->char (int->list n))))
+  (apply string (map int->char (int->list n))))
+
+; string->int is defined in numbers.scm to avoid circular ref
 
 ; Take any arguments and turn it into a string easily
 (define (word a . r)
@@ -31,6 +33,7 @@
     (if (char<? (car al) (car bl)) a b)))))
   (eq? a (poke (string->list a) (string->list b))))
                                                    
+(define (empty-string? s) (string=? "" s))
 						   
 ; Converts a word to the integer value composed of alphabetical sum of characters						   
 (define (word->int w)

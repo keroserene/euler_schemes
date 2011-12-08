@@ -8,6 +8,9 @@
 
 (define (list-empty? l) (eq? `() l))
 
+; Define empty list
+(define empty-list `())
+
 (define (list-has? l e)
   (there-exists? l (lambda(x) (eq? x e))))
 

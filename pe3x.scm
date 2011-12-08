@@ -17,7 +17,7 @@
 
   (define (mem i) (vector-ref CNT i))
   (define (inc i) 
-    (begin (display "rofling ") (display i) (display "\n") (vector-set! CNT i (+ (vector-ref CNT i) 1))))
+    (begin (display "--- ") (display i) (display "\n") (vector-set! CNT i (+ (vector-ref CNT i) 1))))
 
   (define (count i s f)
     (if (>= i NCOINS) (f 0)
@@ -42,7 +42,6 @@
 (define (p32)
   (define ds `(1 2 3 4 5 6 7 8 9))
   (define pairs (list->vector (list `(1 2) `(1 3) `(1 4) `(1 5) `(1 6) `(1 7) `(2 3) `(2 4) `(3 2))))
-;  (define pairs #(`(1 2) `(1 3) `(1 4) `(1 5) `(1 6) `(1 7) `(2 3) `(2 4)))
   (define cnt (vector-length pairs))
   (define ANS (list)) ; Avoid duplicates
 
@@ -53,7 +52,6 @@
       (define bn (list->int b))
       (define cn (* an bn))
       (define dn (list->int (append a b (int->list cn))))
-;      (println an " * " bn " = " cn    " --- " dn)
       (if (>= cn 10000) 0
       (if (and (pandigital? dn) (not (list-has? ANS cn))) 
         (begin (println "pandigital: " an " * " bn "=" cn) (set! ANS (cons cn ANS)) cn) 0)))
@@ -85,9 +83,6 @@
   (pp 0 0))
 
 
-
-
-
 ; ------------ Problem 35 ------------
 ; "Circular primes under 1 million"
 
@@ -114,3 +109,47 @@
       (count (cdr spl) (+ acc (test-circular (car spl))))))
   (println "Counting circular primes...")
   (count pl 0))
+
+
+; ------------ Problem 38 ------------
+; "largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product of an integer with (1,2, ... , n) where n > 1?"
+
+; Given max of 9 digits, n <= 9
+; Guaranteed largest pandigital number must be 987654321, but n = 1 here
+; Since n > 1, let's try 2, 3, and 4
+; Want something which begins with a 9. Will start permutations from greatest number and decrease from there,
+; so the first occurence of a solution is the largest!
+(define (p38)
+  (define digits `(9 8 7 6 5 4 3 2 1))
+
+  ; Multiply base x by i = {1, 2, ... max} such that
+  ; the concatenation is exactly 9 digits (0 otherwise)
+  (define (mlt x acc cnt i)
+    (cond 
+      ((> cnt 9) 0)
+      ((eq? cnt 9) (let ((fin (list->int acc))) (if (pandigital? fin) (begin (println "Found pandigital: " x " up to i=" i ": " fin) fin) 0)))
+      (else (let ((prod (int->list (* x i))))
+              (mlt x (append acc (int->list (* x i))) (+ cnt (length prod)) (+ 1 i))))))
+
+  (define (search-max lst)
+    (if (list-empty? lst) 123456789
+    (let ((v (mlt (list->int (car lst)) (list) 0 1)))
+      (if (eq? 0 v) (search-max (cdr lst))
+      v))))
+
+  ; 2 digit numbers, starting from 98
+  ; 3 digit numbers
+  (define l2 (filter (lambda(e) (not (eq? (first e) (second e)))) (cross digits digits)))
+  (define l3 (filter (lambda(e) (not (or (eq? (first e) (second e)) (eq? (first e) (third e)))))
+                 (map (lambda(el) (cons (first el) (second el))) (cross digits l2))))
+  (define l4 (filter (lambda(e) (not (or (eq? (first e) (second e)) (eq? (first e) (third e)) (eq? (first e) (fourth e)))))
+                (map (lambda(el) (cons (first el) (second el))) (cross digits l3))))
+
+  (max (search-max l2)
+       (search-max l3)
+       (search-max l4)))
+
+
+
+
+

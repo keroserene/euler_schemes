@@ -3,6 +3,10 @@
 
 (load "data.scm")
 
+; Roughly equal
+(define (~eq? a b)
+  (< (abs (- a b) 0.00001)))
+
 ; Generic exponent function
 ; Returns x raised to p
 (define (pow x p)
